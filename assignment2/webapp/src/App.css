@@ -1,0 +1,97 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+  padding-bottom: 70px;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  color: white;
+  align-content: center;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.content h1 {
+  width: 400px;
+  margin: -40px auto 0;
+}
+
+.content h2 {
+  margin-top: 40px;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.dataTable {
+  margin: 0 auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.osTable {
+  width: 350px;
+}
+
+.ipTable {
+  width: 550px;
+}
+
+.tableRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.tableKey {
+  width: 30%;
+  margin-bottom: 3px;
+}
+
+.tableValue {
+  width: 70%;
+  text-align: right;
+}
+
+.inputDataSelector {
+  align-self: flex-end;
+  margin-top: 10px;
+}
+
+.inputDataSelector div {
+  width: 75px;
+  height: 35px;
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+.inputDataSelector > div {
+  margin-bottom: 5px;
+}
+
+.inputDataSelector div:hover {
+  cursor: pointer;
+  background: #111;
+}
+
+.selected:hover {
+  cursor: pointer;
+  background: #111;
+}
+
+.selected {
+  background: #222;
+}
