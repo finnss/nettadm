@@ -96,8 +96,6 @@ function App() {
             </div>
 
             <h2>IP</h2>
-
-            <h2>IP</h2>
             <div className="dataTable ipTable">
               <div className="tableRow">
                 <span className="tableKey">Name</span>
@@ -228,8 +226,9 @@ const parseDataWithVaryingTuples = data => {
     const key = keyValuePair.split("=")[0].replace('"', "");
     const value = (keyValuePair.split("=")[1] || "")
       .replace('"', "")
-      .replace("\\", "")
       .replace('"', "")
+      .replace('"', "")
+      .replace("\\", "")
       .replace("\\", ""); // dont ask
     parsed[key] = value;
   });

@@ -177,16 +177,15 @@ def parse_system_info(str):
     list_of_words = str.split()
 
     NAME = list_of_words[list_of_words.index('STRING:') + 1]
-    del list_of_words[list_of_words.index(NAME)]
 
-    VERSION = list_of_words[list_of_words.index(NAME) + 3]
+    VERSION = list_of_words[list_of_words.index('STRING:') + 3]
 
-    ID = list_of_words[list_of_words.index(VERSION.replace(':', '')) + 1]
-    ID_LIKE = list_of_words[list_of_words.index(ID) + 1]
+    ID = list_of_words[list_of_words.index('STRING:' + 2]
+    # ID_LIKE = list_of_words[list_of_words.index(ID) + 1]
 
     # PRETTY_NAME = list_of_words[list_of_words.index('') + 1]
 
-    return NAME, VERSION, ID, ID_LIKE  # , PRETTY_NAME
+    return NAME, VERSION, ID,  # ID_LIKE #, PRETTY_NAME
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
