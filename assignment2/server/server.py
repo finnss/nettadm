@@ -162,9 +162,9 @@ def parse_snmp_request():
 
         jsonResult['ipInterfaces'] += [
             {
-                'name': ip_names[i],
-                'address': ip_addresses[i],
-                'mask': ip_masks[i]
+                'name': name,
+                'address': address,
+                'mask': mask
             }
         ]
 
