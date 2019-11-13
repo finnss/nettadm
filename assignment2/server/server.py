@@ -24,9 +24,17 @@ def parse_request():
     ip_addr_command_output = os.popen(command_to_get_IP_addresses).read()
     ip_mask_command_output = os.popen(command_to_get_IP_mask).read()
 
+    print('ip_names_command_output', ip_names_command_output)
+    print('ip_addr_command_output', ip_addr_command_output)
+    print('ip_mask_command_output', ip_mask_command_output)
+
     ip_names = ip_names_command_output.split('\n')
     ip_addresses = ip_addr_command_output.split('\n')
     ip_masks = ip_mask_command_output.split('\n')
+
+    print('ip_names', ip_names)
+    print('ip_addresses', ip_addresses)
+    print('ip_masks', ip_masks)
 
     xml_data = \
 """

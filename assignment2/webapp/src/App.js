@@ -204,7 +204,9 @@ const parseDataWithVaryingTuples = data => {
     const key = keyValuePair.split("=")[0].replace('"', "");
     const value = (keyValuePair.split("=")[1] || "")
       .replace('"', "")
-      .replace('"', ""); // dont ask
+      .replace("\\", "")
+      .replace('"', "")
+      .replace("\\", ""); // dont ask
     parsed[key] = value;
   });
 
