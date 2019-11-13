@@ -96,7 +96,7 @@ function App() {
             </div>
 
             <h2>IP</h2>
-            <div className="dataTable ipTable">
+            <div className="dataTable snmpIpTable">
               <div className="tableRow">
                 <span className="tableKey">Name</span>
                 <span className="tableValue">IP Address</span>

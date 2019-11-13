@@ -47,6 +47,10 @@
   width: 550px;
 }
 
+.snmpIpTable {
+  width: 850px;
+}
+
 .tableRow {
   display: flex;
   flex-direction: row;
