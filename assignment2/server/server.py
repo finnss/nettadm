@@ -28,9 +28,9 @@ def parse_request():
     print('ip_addr_command_output', ip_addr_command_output)
     print('ip_mask_command_output', ip_mask_command_output)
 
-    ip_names = ip_names_command_output.split('\n')
-    ip_addresses = ip_addr_command_output.split('\n')
-    ip_masks = ip_mask_command_output.split('\n')
+    ip_names = ip_names_command_output.split('\n')[:-1]
+    ip_addresses = ip_addr_command_output.split('\n')[:-1]
+    ip_masks = ip_mask_command_output.split('\n')[:-1]
 
     print('ip_names', ip_names)
     print('ip_addresses', ip_addresses)
