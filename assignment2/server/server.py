@@ -177,7 +177,7 @@ def parse_combined_request():
     ttl_snmp = os.popen(command_to_get_ttl_snmp).read().split(' ')[-1]
 
     command_to_get_mac_sim = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_PhysicalElement -nl | grep SerialNumber'
-    mac_sim = os.popen(command_to_get_mac_sim).read().replace('-SerialNumber="', '').replace('"', '')
+    mac_sim = os.popen(command_to_get_mac_sim).read().replace('-SerialNumber=VMWare-"', '').replace('"', '')
 
     combined_json = {
         'ttl': ttl_snmp,

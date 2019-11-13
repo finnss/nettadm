@@ -32,8 +32,8 @@ function App() {
           .catch(err => {
             console.log("fetch", err);
           })
-      : Object.keys(snmpData).length === 0 && // combined
-        fetch(`${baseUrl}/combined_info`)
+      : Object.keys(combinedData).length === 0 && // combined
+        fetch(`${baseUrl}/combined`)
           .then(response => response.json())
           .then(response => {
             setCombinedData(response);
