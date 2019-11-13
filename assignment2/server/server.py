@@ -53,22 +53,22 @@ def parse_request():
     for i in range(len(ip_names)):
         name = ip_names[i].replace('-Element', '')
         address = ip_addresses[i].replace('-', '')
-        ip_masks = ip_masks[i].replace('-', '')
+        ip_mask = ip_masks[i].replace('-', '')
 
         ip_interfaces_xml = """
-<PROPERTY NAME="IpInterface">
-    <PROPERTY NAME="Name" TYPE="string">
-        <VALUE>{}</VALUE>
-    </PROPERTY>
-    <PROPERTY NAME="IPv4Address" TYPE="string">
-        <VALUE>{}</VALUE>
-    </PROPERTY>
-    <PROPERTY NAME="SubnetMask" TYPE="string">
-        <VALUE>{}</VALUE>
-    </PROPERTY>
-</PROPERTY>
-INTERFACES_REPLACE
-        """.format(name, address, ip_masks)
+            <PROPERTY NAME="IpInterface">
+                <PROPERTY NAME="Name" TYPE="string">
+                    <VALUE>{}</VALUE>
+                </PROPERTY>
+                <PROPERTY NAME="IPv4Address" TYPE="string">
+                    <VALUE>{}</VALUE>
+                </PROPERTY>
+                <PROPERTY NAME="SubnetMask" TYPE="string">
+                    <VALUE>{}</VALUE>
+                </PROPERTY>
+            </PROPERTY>
+            INTERFACES_REPLACE
+        """.format(name, address, ip_mask)
 
         xml_data = xml_data.replace('INTERFACES_REPLACE', ip_interfaces_xml)
 
