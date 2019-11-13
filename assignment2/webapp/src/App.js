@@ -8,19 +8,21 @@ function App() {
   const [useCim, setUseCim] = useState(true);
 
   useEffect(() => {
+    const baseUrl = "http://129.241.209.11:5000";
     useCim
       ? Object.keys(cimData).length === 0 &&
-        fetch("http://localhost:5000/cim_info")
+        fetch(`${baseUrl}/cim_info`)
           .then(response => response.text())
           .then(response => {
             const xml = new XMLParser().parseFromString(response);
+            console.log("xml", xml);
             setCimData(xml);
           })
           .catch(err => {
             console.log("fetch", err);
           })
       : Object.keys(snmpData).length === 0 &&
-        fetch("http://localhost:5000/snmp_info")
+        fetch(`${baseUrl}/snmp_info`)
           .then(response => response.json())
           .then(response => {
             setSnmpData(response);
@@ -32,16 +34,20 @@ function App() {
 
   const osData =
     cimData.children &&
-    cimData.children.find(child => child.attributes.NAME === "Version")
-      .children[0].value;
+    cimData.children[0].children.find(
+      child => child.attributes.NAME === "Version"
+    ).children[0].value;
   const ipData =
     cimData.children &&
-    cimData.children.find(child => child.attributes.NAME === "IpInterfaces")
-      .children;
+    cimData.children[0].children.find(
+      child => child.attributes.NAME === "IpInterfaces"
+    ).children;
 
   console.log("State:");
   console.log("cimData", cimData);
   console.log("snmpData", snmpData);
+  console.log("osData", osData);
+  console.log("ipData", ipData);
 
   return (
     <div className="App">
@@ -108,6 +114,7 @@ const formatXMLOsData = data => {
 };
 
 const formatXMLIpInterface = ipInterface => {
+  console.log("ipInterface", ipInterface);
   const parsed = {};
 
   const name = ipInterface.children[0].children[0].value

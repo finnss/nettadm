@@ -15,17 +15,18 @@ def index():
 def parse_request():
     command_to_get_OS = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_OperatingSystem -nl | grep Version'
     os_command_output = os.popen(command_to_get_OS).read()
-    # os_command_output = "NAME=\"Ubuntu\" VERSION=\"14.04.6 LTS,Trusty Tahr\" ID=ubuntu ID_LIKE=debian PRETTY_NAME=\"Ubuntu 14.04.6 LTS\""
 
-    command_to_get_IP_names = 'wbemcli ein http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep Name'
+    command_to_get_IP_names = 'wbemcli ein http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep ElementName'
     command_to_get_IP_addresses = 'wbemcli ein http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep IPv4Address'
     command_to_get_IP_mask = 'wbemcli ein http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep subnet'
+
     ip_names_command_output = os.popen(command_to_get_IP_names).read()
     ip_addr_command_output = os.popen(command_to_get_IP_addresses).read()
     ip_mask_command_output = os.popen(command_to_get_IP_mask).read()
-    # ip_names_command_output = 'Name="IPv4_eth0"'
-    # ip_addr_command_output = 'IPv4Address="129.241.200.173"'
-    # ip_mask_command_output = 'SubnetMask="255.255.0.0"'
+
+    ip_names = ip_names_command_output.split('\n')
+    ip_addresses = ip_addr_command_output.split('\n')
+    ip_masks = ip_mask_command_output.split('\n')
 
     xml_data = \
 """
@@ -35,21 +36,35 @@ def parse_request():
             <VALUE>{}</VALUE>
         </PROPERTY>
         <PROPERTY NAME="IpInterfaces">
-            <PROPERTY NAME="IpInterface0">
-                <PROPERTY NAME="Name" TYPE="string">
-                    <VALUE>{}</VALUE>
-                </PROPERTY>
-                <PROPERTY NAME="IPv4Address" TYPE="string">
-                    <VALUE>{}</VALUE>
-                </PROPERTY>
-                <PROPERTY NAME="SubnetMask" TYPE="string">
-                    <VALUE>{}</VALUE>
-                </PROPERTY>
-            </PROPERTY>
+            INTERFACES_REPLACE
         </PROPERTY>
     </MESSAGE>
 </CIM>
-""".format(os_command_output, ip_names_command_output, ip_addr_command_output, ip_mask_command_output)
+""".format(os_command_output)
+
+    for i in range(len(ip_names)):
+        name = ip_names[i].replace('-Element', '')
+        address = ip_addresses[i].replace('-', '')
+        ip_masks = ip_masks[i].replace('-', '')
+
+        ip_interfaces_xml = """
+<PROPERTY NAME="IpInterface">
+    <PROPERTY NAME="Name" TYPE="string">
+        <VALUE>{}</VALUE>
+    </PROPERTY>
+    <PROPERTY NAME="IPv4Address" TYPE="string">
+        <VALUE>{}</VALUE>
+    </PROPERTY>
+    <PROPERTY NAME="SubnetMask" TYPE="string">
+        <VALUE>{}</VALUE>
+    </PROPERTY>
+</PROPERTY>
+INTERFACES_REPLACE
+        """.format(name, address, ip_masks)
+
+        xml_data.replace('INTERFACES_REPLACE', ip_interfaces_xml)
+
+    xml_data.replace('INTERFACES_REPLACE', '')
     # parsed_os = xmltodict.parse(os_xml_data)
     # os_xml = xmltodict.unparse(parsed_os)
 
@@ -100,13 +115,31 @@ def parse_snmp_request():
     command_to_get_sysName = 'snmpgetnext -v 2c -c ttm4128 localhost sysDescr'
     sys_name = os.popen(command_to_get_sysName).read()
 
-    command_to_get_IP_packets = 'snmpgetnext -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1.1'
-    ip_command_output = os.popen(command_to_get_IP_packets).read()
+    command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep IpAddress' # TODO
+    command_to_get_IP_addresses = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep IpAddress'
+    command_to_get_IP_mask = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntNetMask'
+
+    ip_names_command_output = os.popen(command_to_get_IP_names).read()
+    ip_addr_command_output = os.popen(command_to_get_IP_addresses).read()
+    ip_mask_command_output = os.popen(command_to_get_IP_mask).read()
+
+    ip_names = ip_names_command_output.split('\n')
+    ip_addresses = ip_addr_command_output.split('\n')
+    ip_masks = ip_mask_command_output.split('\n')
 
     jsonResult = {
         'os': sys_name,
-        'ipInterfaces': ip_command_output
+        'ipInterfaces': []
     }
+
+    for i in range(len(ip_names)):
+        jsonResult['ipInterfaces'] += [
+            {
+                'name': ip_names[i],
+                'address': ip_addresses[i],
+                'mask': ip_masks[i]
+            }
+        ]
 
     return Response(json.dumps(jsonResult), mimetype='application/json')
 
