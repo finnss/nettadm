@@ -24,17 +24,17 @@ def parse_request():
     ip_addr_command_output = os.popen(command_to_get_IP_addresses).read()
     ip_mask_command_output = os.popen(command_to_get_IP_mask).read()
 
-    print('ip_names_command_output', ip_names_command_output)
-    print('ip_addr_command_output', ip_addr_command_output)
-    print('ip_mask_command_output', ip_mask_command_output)
+    print('cim ip_names_command_output', ip_names_command_output)
+    print('cim ip_addr_command_output', ip_addr_command_output)
+    print('cim ip_mask_command_output', ip_mask_command_output)
 
     ip_names = ip_names_command_output.split('\n')[:-1]
     ip_addresses = ip_addr_command_output.split('\n')[:-1]
     ip_masks = ip_mask_command_output.split('\n')[:-1]
 
-    print('ip_names', ip_names)
-    print('ip_addresses', ip_addresses)
-    print('ip_masks', ip_masks)
+    print('cim ip_names', ip_names)
+    print('cim ip_addresses', ip_addresses)
+    print('cim ip_masks', ip_masks)
 
     xml_data = \
 """
@@ -123,7 +123,7 @@ def parse_snmp_request():
     command_to_get_sysName = 'snmpgetnext -v 2c -c ttm4128 localhost sysDescr'
     sys_name = os.popen(command_to_get_sysName).read()
 
-    command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep IpAddress' # TODO
+    command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep IpAddress'  # TODO
     command_to_get_IP_addresses = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep IpAddress'
     command_to_get_IP_mask = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntNetMask'
 
@@ -131,9 +131,17 @@ def parse_snmp_request():
     ip_addr_command_output = os.popen(command_to_get_IP_addresses).read()
     ip_mask_command_output = os.popen(command_to_get_IP_mask).read()
 
+    print('snmp ip_names_command_output', ip_names_command_output)
+    print('snmp ip_addr_command_output', ip_addr_command_output)
+    print('snmp ip_mask_command_output', ip_mask_command_output)
+
     ip_names = ip_names_command_output.split('\n')
     ip_addresses = ip_addr_command_output.split('\n')
     ip_masks = ip_mask_command_output.split('\n')
+
+    print('snmp ip_names', ip_names)
+    print('snmp ip_addresses', ip_addresses)
+    print('snmp ip_masks', ip_masks)
 
     jsonResult = {
         'os': sys_name,

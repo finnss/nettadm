@@ -77,9 +77,14 @@ function App() {
 
             <h2>IP</h2>
             <div className="dataTable ipTable">
-              {(ipData || []).map(ipInterface => {
-                return formatXMLIpInterface(ipInterface);
-              })}
+              <div className="tableRow">
+                <span className="tableKey">Name</span>
+                <span className="tableValue">IP Address</span>
+                <span className="tableValue">Subnet Mask</span>
+              </div>
+              {(ipData || []).map(ipInterface =>
+                formatXMLIpInterface(ipInterface)
+              )}
             </div>
           </div>
         ) : (
@@ -137,17 +142,10 @@ const formatXMLIpInterface = ipInterface => {
       .replace('"', "");
 
   return (
-    <div>
-      <div className="tableRow">
-        <span className="tableKey">Name</span>
-        <span className="tableValue">IP Address</span>
-        <span className="tableValue">Subnet Mask</span>
-      </div>
-      <div className="tableRow">
-        <span className="tableKey">{name}</span>
-        <span className="tableValue">{ipAddr}</span>
-        <span className="tableValue">{subnetMask}</span>
-      </div>
+    <div className="tableRow">
+      <span className="tableKey">{name}</span>
+      <span className="tableValue">{ipAddr}</span>
+      <span className="tableValue">{subnetMask}</span>
     </div>
   );
 };
