@@ -156,7 +156,7 @@ def parse_snmp_request():
     }
 
     for i in range(len(ip_addresses)):
-        name = ip_names[i].split(" ")[-1]
+        name = ip_names[i].split(" = ")[1].replace('STRING: ', '')
         address = ip_addresses[i].split(" ")[-1]
         mask = ip_masks[i].split(" ")[-1]
 
