@@ -70,9 +70,9 @@ def parse_request():
 INTERFACES_REPLACE
         """.format(name, address, ip_masks)
 
-        xml_data.replace('INTERFACES_REPLACE', ip_interfaces_xml)
+        xml_data = xml_data.replace('INTERFACES_REPLACE', ip_interfaces_xml)
 
-    xml_data.replace('INTERFACES_REPLACE', '')
+    xml_data = xml_data.replace('INTERFACES_REPLACE', '')
     # parsed_os = xmltodict.parse(os_xml_data)
     # os_xml = xmltodict.unparse(parsed_os)
 
