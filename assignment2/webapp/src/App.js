@@ -128,7 +128,7 @@ function App() {
           <div className="displayData">
             <h1>Combined Data</h1>
 
-            <div className="dataTable ipTable">
+            <div className="dataTable snmpIpTable">
               <div className="tableRow">
                 <span className="tableKey">TTL from SNMP</span>
                 <span className="tableValue">{combinedData.ttl}</span>
