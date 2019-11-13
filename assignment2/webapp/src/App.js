@@ -33,10 +33,10 @@ function App() {
             console.log("fetch", err);
           })
       : Object.keys(snmpData).length === 0 && // combined
-        fetch(`${baseUrl}/snmp_info`)
+        fetch(`${baseUrl}/combined_info`)
           .then(response => response.json())
           .then(response => {
-            setSnmpData(response);
+            setCombinedData(response);
           })
           .catch(err => {
             console.log("fetch", err);
@@ -80,7 +80,7 @@ function App() {
             className={`${dataMode === "combined" ? "selected" : ""}`}
             onClick={() => setDataMode("combined")}
           >
-            SNMP
+            Combined
           </div>
         </div>
 
@@ -128,11 +128,16 @@ function App() {
           <div className="displayData">
             <h1>Combined Data</h1>
 
-            <span className="tableValue">TTL from SNMP</span>
-            <span className="tableValue">MAC from CIM</span>
-
-            <span className="tableValue">{combinedData.ttl}</span>
-            <span className="tableValue">{combinedData.mac}</span>
+            <div className="dataTable ipTable">
+              <div className="tableRow">
+                <span className="tableKey">TTL from SNMP</span>
+                <span className="tableValue">{combinedData.ttl}</span>
+              </div>
+              <div className="tableRow">
+                <span className="tableKey">MAC from CIM</span>
+                <span className="tableValue">{combinedData.mac}</span>
+              </div>
+            </div>
           </div>
         )}
       </header>
