@@ -14,39 +14,41 @@ def index():
 @app.route("/cim_info", methods=['GET'], strict_slashes=False)
 def parse_request():
     command_to_get_OS = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2/CIM_OperatingSystem -nl | grep Version'
-    # os_command_output = os.popen(command_to_get_OS).read()
-    os_command_output = "NAME=\"Ubuntu\" VERSION=\"14.04.6 LTS,Trusty Tahr\" ID=ubuntu ID_LIKE=debian PRETTY_NAME=\"Ubuntu 14.04.6 LTS\""
+    os_command_output = os.popen(command_to_get_OS).read()
+    # os_command_output = "NAME=\"Ubuntu\" VERSION=\"14.04.6 LTS,Trusty Tahr\" ID=ubuntu ID_LIKE=debian PRETTY_NAME=\"Ubuntu 14.04.6 LTS\""
 
     command_to_get_IP_names = 'wbemcli ein http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep Name'
     command_to_get_IP_addresses = 'wbemcli ein http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep IPv4Address'
     command_to_get_IP_mask = 'wbemcli ein http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep subnet'
-    # ip_names_command_output = os.popen(command_to_get_IP).read()
-    # ip_addr_command_output = os.popen(command_to_get_IP).read()
-    # ip_mask_command_output = os.popen(command_to_get_IP).read()
-    ip_names_command_output = 'Name="IPv4_eth0"'
-    ip_addr_command_output = 'IPv4Address="129.241.200.173"'
-    ip_mask_command_output = 'SubnetMask="255.255.0.0"'
+    ip_names_command_output = os.popen(command_to_get_IP).read()
+    ip_addr_command_output = os.popen(command_to_get_IP_addresses).read()
+    ip_mask_command_output = os.popen(command_to_get_IP_mask).read()
+    # ip_names_command_output = 'Name="IPv4_eth0"'
+    # ip_addr_command_output = 'IPv4Address="129.241.200.173"'
+    # ip_mask_command_output = 'SubnetMask="255.255.0.0"'
 
     xml_data = \
 """
-<MESSAGE>
-    <PROPERTY NAME="Version" TYPE="string">
-        <VALUE>{}</VALUE>
-    </PROPERTY>
-    <PROPERTY NAME="IpInterfaces">
-        <PROPERTY NAME="IpInterface0">
-            <PROPERTY NAME="Name" TYPE="string">
-                <VALUE>{}</VALUE>
-            </PROPERTY>
-            <PROPERTY NAME="IPv4Address" TYPE="string">
-                <VALUE>{}</VALUE>
-            </PROPERTY>
-            <PROPERTY NAME="SubnetMask" TYPE="string">
-                <VALUE>{}</VALUE>
+<CIM CIMVERSION="2.0" DTDVERSION="2.0">
+    <MESSAGE>
+        <PROPERTY NAME="Version" TYPE="string">
+            <VALUE>{}</VALUE>
+        </PROPERTY>
+        <PROPERTY NAME="IpInterfaces">
+            <PROPERTY NAME="IpInterface0">
+                <PROPERTY NAME="Name" TYPE="string">
+                    <VALUE>{}</VALUE>
+                </PROPERTY>
+                <PROPERTY NAME="IPv4Address" TYPE="string">
+                    <VALUE>{}</VALUE>
+                </PROPERTY>
+                <PROPERTY NAME="SubnetMask" TYPE="string">
+                    <VALUE>{}</VALUE>
+                </PROPERTY>
             </PROPERTY>
         </PROPERTY>
-    </PROPERTY>
-</MESSAGE>
+    </MESSAGE>
+</CIM>
 """.format(os_command_output, ip_names_command_output, ip_addr_command_output, ip_mask_command_output)
     # parsed_os = xmltodict.parse(os_xml_data)
     # os_xml = xmltodict.unparse(parsed_os)
