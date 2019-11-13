@@ -171,6 +171,22 @@ def parse_snmp_request():
     return Response(json.dumps(jsonResult), mimetype='application/json')
 
 
+@app.route("/combined", methods=['GET'], strict_slashes=False)
+def parse_combined_request():
+    command_to_get_ttl_snmp = 'snmpgetnext -v 2c -c ttm4128 localhost 1.3.6.1.2.1.4.2'
+    ttl_snmp = os.popen(command_to_get_sysName).read().split(' ')[-1]
+
+    command_to_get_mac_sim = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_PhysicalElement -nl | grep SerialNumber'
+    mac_sim = os.popen(command_to_get_mac_sim).read().replace('-SerialNumber="', '').replace('"', '')
+
+    combined_json = {
+        'ttl': ttl_snmp,
+        'mac': mac_sim
+    }
+
+    return Response(json.dumps(combined_json), mimetype='application/json')
+
+
 def parse_system_info(str):
     print('parsing input', str)
     list_of_words = str.split()

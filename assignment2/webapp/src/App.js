@@ -5,11 +5,12 @@ const XMLParser = require("react-xml-parser");
 function App() {
   const [cimData, setCimData] = useState({});
   const [snmpData, setSnmpData] = useState({});
-  const [useCim, setUseCim] = useState(true);
+  const [combinedData, setCombinedData] = useState({});
+  const [dataMode, setDataMode] = useState("cim");
 
   useEffect(() => {
     const baseUrl = "http://129.241.209.11:5000";
-    useCim
+    dataMode === "cim"
       ? Object.keys(cimData).length === 0 &&
         fetch(`${baseUrl}/cim_info`)
           .then(response => response.text())
@@ -21,7 +22,17 @@ function App() {
           .catch(err => {
             console.log("fetch", err);
           })
-      : Object.keys(snmpData).length === 0 &&
+      : dataMode === "snmp"
+      ? Object.keys(snmpData).length === 0 &&
+        fetch(`${baseUrl}/snmp_info`)
+          .then(response => response.json())
+          .then(response => {
+            setSnmpData(response);
+          })
+          .catch(err => {
+            console.log("fetch", err);
+          })
+      : Object.keys(snmpData).length === 0 && // combined
         fetch(`${baseUrl}/snmp_info`)
           .then(response => response.json())
           .then(response => {
@@ -54,20 +65,26 @@ function App() {
       <header className="content">
         <div className="inputDataSelector">
           <div
-            className={`${useCim ? "selected" : ""}`}
-            onClick={() => setUseCim(true)}
+            className={`${dataMode === "cim" ? "selected" : ""}`}
+            onClick={() => setDataMode("cim")}
           >
             CIM
           </div>
           <div
-            className={`${!useCim ? "selected" : ""}`}
-            onClick={() => setUseCim(false)}
+            className={`${dataMode === "snmp" ? "selected" : ""}`}
+            onClick={() => setDataMode("snmp")}
+          >
+            SNMP
+          </div>
+          <div
+            className={`${dataMode === "combined" ? "selected" : ""}`}
+            onClick={() => setDataMode("combined")}
           >
             SNMP
           </div>
         </div>
 
-        {useCim ? (
+        {dataMode === "cim" ? (
           <div className="displayData">
             <h1>CIM Data</h1>
             <h2>OS</h2>
@@ -87,7 +104,7 @@ function App() {
               )}
             </div>
           </div>
-        ) : (
+        ) : dataMode === "snmp" ? (
           <div className="displayData">
             <h1>SNMP Data</h1>
             <h2>OS</h2>
@@ -106,6 +123,16 @@ function App() {
                 formatJSONIpInterface(ipInterface)
               )}
             </div>
+          </div>
+        ) : (
+          <div className="displayData">
+            <h1>Combined Data</h1>
+
+            <span className="tableValue">TTL from SNMP</span>
+            <span className="tableValue">MAC from CIM</span>
+
+            <span className="tableValue">{combinedData.ttl}</span>
+            <span className="tableValue">{combinedData.mac}</span>
           </div>
         )}
       </header>
