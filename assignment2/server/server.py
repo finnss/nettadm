@@ -123,8 +123,8 @@ def parse_snmp_request():
     command_to_get_sysName = 'snmpgetnext -v 2c -c ttm4128 localhost sysDescr'
     sys_name = os.popen(command_to_get_sysName).read()
 
-    command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep IpAddressAddr'  # TODO
-    command_to_get_IP_addresses = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep IpAddressAddr'
+    command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntAddr'  # TODO
+    command_to_get_IP_addresses = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntAddr'
     command_to_get_IP_mask = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntNetMask'
 
     ip_names_command_output = os.popen(command_to_get_IP_names).read()
