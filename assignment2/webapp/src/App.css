@@ -15,7 +15,6 @@
   font-size: 20px;
   color: white;
   align-content: center;
-  width: 600px;
   margin: 0 auto;
 }
 
@@ -49,6 +48,14 @@
 
 .snmpIpTable {
   width: 850px;
+}
+
+.snmpIpTable .tableKey {
+  width: 70%;
+}
+
+.snmpIpTable .tableValue {
+  width: 30%;
 }
 
 .tableRow {
