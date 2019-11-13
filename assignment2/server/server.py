@@ -180,7 +180,7 @@ def parse_system_info(str):
 
     VERSION = list_of_words[list_of_words.index('STRING:') + 3]
 
-    ID = list_of_words[list_of_words.index('STRING:' + 2]
+    ID = list_of_words[list_of_words.index('STRING:') + 2]
     # ID_LIKE = list_of_words[list_of_words.index(ID) + 1]
 
     # PRETTY_NAME = list_of_words[list_of_words.index('') + 1]
