@@ -123,6 +123,14 @@ def parse_snmp_request():
     command_to_get_sysName = 'snmpgetnext -v 2c -c ttm4128 localhost sysDescr'
     sys_name = os.popen(command_to_get_sysName).read()
 
+    os_info = parse_system_info(sys_name)
+    os_json = {
+        'NAME': os_info['NAME'],
+        'VERSION': os_info['VERSION'],
+        'ID': os_info['ID'],
+        'ID_LIKE': os_info['ID_LIKE'],
+    }
+
     command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntAddr'  # TODO
     command_to_get_IP_addresses = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntAddr'
     command_to_get_IP_mask = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntNetMask'
@@ -144,11 +152,15 @@ def parse_snmp_request():
     print('snmp ip_masks', ip_masks)
 
     jsonResult = {
-        'os': sys_name,
+        'os': os_json,
         'ipInterfaces': []
     }
 
     for i in range(len(ip_names)):
+        name = ip_names[i].split(" ")[-1]
+        address = ip_addresses[i].split(" ")[-1]
+        mask = ip_masks[i].split(" ")[-1]
+
         jsonResult['ipInterfaces'] += [
             {
                 'name': ip_names[i],
@@ -159,6 +171,21 @@ def parse_snmp_request():
 
     return Response(json.dumps(jsonResult), mimetype='application/json')
 
+
+def parse_system_info(str):
+    list_of_words = str.split()
+
+    NAME = list_of_words[list_of_words.index('STRING:') + 1]
+    del list_of_words[list_of_words.index(NAME)]
+
+    VERSION = list_of_words[list_of_words.index('Version') + 1]
+
+    ID = list_of_words[list_of_words.index(VERSION.replace(':', '')) + 1]
+    ID_LIKE = list_of_words[list_of_words.index(ID) + 1]
+
+    # PRETTY_NAME = list_of_words[list_of_words.index('') + 1]
+
+    return NAME, VERSION, ID, ID_LIKE  # , PRETTY_NAME
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

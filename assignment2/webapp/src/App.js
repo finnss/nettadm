@@ -96,7 +96,18 @@ function App() {
             </div>
 
             <h2>IP</h2>
-            <div className="dataTable ipTable">{snmpData.ipInterfaces}</div>
+
+            <h2>IP</h2>
+            <div className="dataTable ipTable">
+              <div className="tableRow">
+                <span className="tableKey">Name</span>
+                <span className="tableValue">IP Address</span>
+                <span className="tableValue">Subnet Mask</span>
+              </div>
+              {(snmpData.ipInterfaces || []).map(ipInterface =>
+                formatJSONIpInterface(ipInterface)
+              )}
+            </div>
           </div>
         )}
       </header>
@@ -156,8 +167,8 @@ const formatJSONOsData = osData => {
 };
 
 const formatJSONIpInterface = ipInterface => {
-  console.log("osData", ipInterface);
-  return <div>{ipInterface}</div>;
+  console.log("formatJSONIpInterface", ipInterface);
+  return <div>{ipInterface.address}</div>;
 };
 
 const parseDataWithVaryingTuples = data => {
