@@ -13,7 +13,7 @@ def index():
 
 @app.route("/cim_info", methods=['GET'], strict_slashes=False)
 def parse_request():
-    command_to_get_OS = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2/CIM_OperatingSystem -nl | grep Version'
+    command_to_get_OS = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_OperatingSystem -nl | grep Version'
     os_command_output = os.popen(command_to_get_OS).read()
     # os_command_output = "NAME=\"Ubuntu\" VERSION=\"14.04.6 LTS,Trusty Tahr\" ID=ubuntu ID_LIKE=debian PRETTY_NAME=\"Ubuntu 14.04.6 LTS\""
 
