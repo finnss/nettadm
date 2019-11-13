@@ -123,12 +123,11 @@ def parse_snmp_request():
     command_to_get_sysName = 'snmpgetnext -v 2c -c ttm4128 localhost sysDescr'
     sys_name = os.popen(command_to_get_sysName).read()
 
-    os_info = parse_system_info(sys_name)
+    NAME, VERSION, ID = parse_system_info(sys_name)
     os_json = {
-        'NAME': os_info['NAME'],
-        'VERSION': os_info['VERSION'],
-        'ID': os_info['ID'],
-        'ID_LIKE': os_info['ID_LIKE'],
+        'NAME': NAME,
+        'VERSION': VERSION,
+        'ID': ID
     }
 
     command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntAddr'  # TODO
