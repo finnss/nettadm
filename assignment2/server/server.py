@@ -130,7 +130,7 @@ def parse_snmp_request():
         'ID': ID
     }
 
-    command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntAddr'  # TODO
+    command_to_get_IP_names = 'snmpwalk -v 2c -c ttm4128 localhost 1.3.6.1.2.1.2.2.1.2'
     command_to_get_IP_addresses = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntAddr'
     command_to_get_IP_mask = 'snmpwalk -v 2c -c ttm4128 localhost .1.3.6.1.2.1.4.20.1 | grep ipAdEntNetMask'
 
@@ -155,7 +155,7 @@ def parse_snmp_request():
         'ipInterfaces': []
     }
 
-    for i in range(len(ip_names)):
+    for i in range(len(ip_addresses)):
         name = ip_names[i].split(" ")[-1]
         address = ip_addresses[i].split(" ")[-1]
         mask = ip_masks[i].split(" ")[-1]
