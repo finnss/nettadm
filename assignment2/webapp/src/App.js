@@ -163,12 +163,27 @@ const formatXMLIpInterface = ipInterface => {
 
 const formatJSONOsData = osData => {
   console.log("osData", osData);
-  return <div>{osData}</div>;
+  return (
+    <div>
+      {Object.keys(osData).map(key => (
+        <div className="tableRow">
+          <span className="tableKey">{key}</span>
+          <span className="tableValue">{osData[key]}</span>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 const formatJSONIpInterface = ipInterface => {
   console.log("formatJSONIpInterface", ipInterface);
-  return <div>{ipInterface.address}</div>;
+  return (
+    <div className="tableRow">
+      <span className="tableKey">{ipInterface.name}</span>
+      <span className="tableValue">{ipInterface.address}</span>
+      <span className="tableValue">{ipInterface.mask}</span>
+    </div>
+  );
 };
 
 const parseDataWithVaryingTuples = data => {

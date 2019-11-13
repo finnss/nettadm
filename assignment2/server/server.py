@@ -173,6 +173,7 @@ def parse_snmp_request():
 
 
 def parse_system_info(str):
+    print('parsing input', str)
     list_of_words = str.split()
 
     NAME = list_of_words[list_of_words.index('STRING:') + 1]
