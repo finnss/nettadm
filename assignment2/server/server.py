@@ -18,7 +18,7 @@ def parse_request():
 
     command_to_get_IP_names = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep ElementName'
     command_to_get_IP_addresses = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep IPv4Address'
-    command_to_get_IP_mask = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep subnet'
+    command_to_get_IP_mask = 'wbemcli ei http://ttm4128.item.ntnu.no:5988/root/cimv2:CIM_IPProtocolEndpoint -nl | grep SubnetMask'
 
     ip_names_command_output = os.popen(command_to_get_IP_names).read()
     ip_addr_command_output = os.popen(command_to_get_IP_addresses).read()
